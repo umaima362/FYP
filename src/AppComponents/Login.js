@@ -8,30 +8,36 @@ import Footer from "./Footer";
 import { useState } from "react";
 import { MDBContainer } from "mdb-react-ui-kit";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { logIn } from "../auth/authSlice";
 
 function Login() {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const Loginfunction = () => {
-    let data = JSON.stringify({
-      email: email,
-      password: password,
-    });
-    var config = {
-      method: "post",
-      maxBodyLength: Infinity,
-      url: "https://localhost:7195/api/Accounts/Login",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: data,
-    };
-    axios(config).then((response) => {
-      alert(response.data);
-      console.log(JSON.stringify(response.data));
-      navigate("/");
-    });
+    debugger;
+    dispatch(logIn({email,password}));
+    // let data = JSON.stringify({
+    //   email: email,
+    //   password: password,
+    // });
+    // var config = {
+    //   method: "post",
+    //   maxBodyLength: Infinity,
+    //   url: "https://localhost:7195/api/Accounts/Login",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   data: data,
+    // };
+    // axios(config).then((response) => {
+    //   alert(response.data);
+    //   console.log(JSON.stringify(response.data));
+    //   navigate("/");
+    // });
+    
   };
 
   {

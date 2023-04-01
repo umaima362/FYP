@@ -4,17 +4,55 @@ import Sidebar from './Sidebar';
 import Footer from './Footer';
 import "./Userprofile.css";
 import { useState } from "react";
-import img from ".././images/defaultimg.png"
+import MyImage from ".././images/defaultimg.png"
 import Userimg from './Userimg';
+import axios from 'axios';
 
 function Userprofile({setIsOpen,isOpen}) {
 
+  const [imageSrc, setImageSrc] = useState(MyImage);
+  const [image, setImage] = useState(null);
+  const [fullName, setFullName] = useState("");
+  const [about, setAbout] = useState('');
+    // Create a reference to the hidden file input element
+    const hiddenFileInput = React.useRef(null);
 
-  const {image, setImage}= useState('')
+  // const handlechange = (e)=>{
+  //   setImage=e.target.files[0]
+  // }
+  const handleImageUpload = event => {
+    const file = event.target.files[0];
+    setImage(file);
+    const reader = new FileReader();
 
+    reader.onload = (event) => {
+      setImageSrc(event.target.result);
+    };
+    reader.readAsDataURL(file);
 
-  const handlechange = (e)=>{
-    setImage=e.target.files[0]
+    
+    console.log(URL.createObjectURL(event.target.files[0]));
+  };
+  const handleClick = (e)=>{
+    hiddenFileInput.current.click();
+  }
+
+  const saveChanges = () => {
+    var data = new FormData();
+    data.append('imageFile',image);
+    data.append('fullName', fullName);
+    data.append('email',"ahadullahkhokhar@gmail.com")
+    debugger;
+    axios.post('https://localhost:7195/api/Accounts/UpdateProfile',data)
+    .then(response => {
+      console.log(response.data);
+      // handle response
+    })
+    .catch(error => {
+      console.log(error);
+      // handle error
+    });
+
   }
   return (
     
@@ -32,9 +70,16 @@ function Userprofile({setIsOpen,isOpen}) {
               <div className="row">
                 <div className="col-12 col-sm-auto mb-3">
                   <div className="mx-auto" style={{ width: '140px'}}>
-                   <img src={img}  width="140px" height="140px" />
+                   <img src={imageSrc}  width="140px" height="140px" />
                    <h1>  </h1>
-                   <Userimg></Userimg>
+                            <button
+                              className="btn btn-outline-danger"
+                              onClick={handleClick}
+                              // {...dragProps}
+                            >
+                              Change Photo
+                            </button>
+                            <input type="file" ref={hiddenFileInput} accept="image/*" onChange={handleImageUpload} style={{display:"none"}} />
                   </div>
                 </div>
                 <div className="col d-flex flex-column flex-sm-row justify-content-between mb-3">
@@ -57,28 +102,28 @@ function Userprofile({setIsOpen,isOpen}) {
               </ul>
               <div className="tab-content pt-3">
                 <div className="tab-pane active">
-                  <form className="form" noValidate="">
+                  <form className="form">
                     <div className="row">
                       <div className="col">
                         <div className="row">
                           <div className="col">
                             <div className="form-group">
                               <label>Full Name</label>
-                              <input className="form-control" type="text" name="name" placeholder="John Smith" value="John Smith"/>
+                              <input className="form-control" type="text" onChange={(e)=>setFullName(e.target.value)} placeholder="John Smith" value={fullName}/>
                             </div>
                           </div>
                           <div className="col">
                             <div className="form-group">
-                              <label>Username</label>
-                              <input className="form-control" type="text" name="username" placeholder="johnny.s" value="johnny.s"/>
+                              <label>Phone Number</label>
+                              <input className="form-control" type="tel"   placeholder="Enter your Number"/>
                             </div>
                           </div>
                         </div>
                         <div className="row">
                           <div className="col">
                             <div className="form-group">
-                              <label>Email</label>
-                              <input className="form-control" type="text" placeholder="user@example.com"/>
+                              <label>Address</label>
+                              <input className="form-control" type="text" placeholder="Address"/>
                             </div>
                           </div>
                         </div>
@@ -93,36 +138,11 @@ function Userprofile({setIsOpen,isOpen}) {
                       </div>
                     </div>
                     <div className="row">
-                      <div className="col-12 col-sm-6 mb-3">
-                        <div className="mb-2"><b>Change Password</b></div>
-                        <div className="row">
-                          <div className="col">
-                            <div className="form-group">
-                              <label>Current Password</label>
-                              <input className="form-control" type="password" placeholder="••••••"/>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="row">
-                          <div className="col">
-                            <div className="form-group">
-                              <label>New Password</label>
-                              <input className="form-control" type="password" placeholder="••••••"/>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="row">
-                          <div className="col">
-                            <div className="form-group">
-                              <label>Confirm <span className="d-none d-xl-inline">Password</span></label>
-                              <input className="form-control" type="password" placeholder="••••••"/></div>
-                          </div>
-                        </div>
-                      </div>
+                      
                     </div>
                     <div className="row">
                       <div className="col d-flex justify-content-end">
-                        <button className="btn btn-primary" style={{background:'linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)'}} type="submit">Save Changes</button>
+                        <button type='button' className="btn btn-primary" style={{background:'linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)'}} onClick={saveChanges} >Save Changes</button>
                       </div>
                     </div>
                   </form>

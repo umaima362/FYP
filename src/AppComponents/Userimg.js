@@ -9,9 +9,9 @@ function Userimg() {
 
 
   const [images, setImages] = React.useState([]);
- 
+
   const onChange = (imageList, addUpdateIndex) => {
-   
+
     console.log(imageList, addUpdateIndex);
     setImages(imageList);
   };
@@ -22,8 +22,8 @@ function Userimg() {
         value={images}
         onChange={onChange}
         dataURLKey="data_url"
-        acceptType={["jpg","png"]}
-        maxFileSize ={10000000}
+        acceptType={["jpg", "png"]}
+        maxFileSize={10000000}
       >
         {({
           imageList,
@@ -35,29 +35,29 @@ function Userimg() {
           // write your building UI
           <div className="upload__image-wrapper">
 
-{imageList.map((image, index) => (
+            {imageList.map((image, index) => (
               <div key={index} className="image-item">
-                <img src={image.data_url} alt={img}  style={{marginTop:'-150px'}}width="140px" height="140px" /> 
+                <img src={image.data_url} alt={img} style={{ marginTop: '-150px' }} width="140px" height="140px" />
                 <div className="image-item__btn-wrapper">
-                {/* <button className="btn btn-outline-danger" style={{marginTop:'-50px'}} onClick={() => onImageRemove(index)}>Remove</button> */}
-                </div> 
+                  {/* <button className="btn btn-outline-danger" style={{marginTop:'-50px'}} onClick={() => onImageRemove(index)}>Remove</button> */}
+                </div>
               </div>
-    ))} 
-            
+            ))}
+
             <button
               className="btn btn-outline-danger"
-             
-              
-             
+
+
+
               onClick={onImageUpload}
               {...dragProps}
             >
               Change Photo
             </button>
-            
-    
-            
-            
+
+
+
+
           </div>
         )}
       </ImageUploading>

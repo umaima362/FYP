@@ -17,9 +17,9 @@ import { useEffect, useState } from "react";
 function Donee() {
   const navigate = useNavigate();
   useEffect(() => {
-    if (!localStorage.getItem("token")) {
-      navigate("/login");
-    }
+    // if (!localStorage.getItem("token")) {
+    //   navigate("/login");
+    // }
   }, []);
 
   const [value, setValue] = useState();
