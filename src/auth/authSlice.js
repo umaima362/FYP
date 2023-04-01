@@ -13,7 +13,7 @@ export const signIn = createAsyncThunk("auth/signIn", async({fullName,email,pass
     axios.post("https://localhost:7195/api/Accounts/RegisterUser",{fullName,email,password}).then(response=>
         response.data
     );
-})
+});
 
 export const logIn = createAsyncThunk("auth/logIn", async(data)=>{
     var config = {
@@ -27,7 +27,7 @@ export const logIn = createAsyncThunk("auth/logIn", async(data)=>{
       };
     const res = await axios(config);
     return res.data;
-})
+});
 
 
 const authSlice = createSlice({
