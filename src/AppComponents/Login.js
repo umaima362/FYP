@@ -1,13 +1,12 @@
 import React from "react";
 import "./Login.css";
-import { Await, json, Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Googlelogin from "./Googlelogin";
 import vector from "./../images/loginimg.jpg";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 import { useState } from "react";
 import { MDBContainer } from "mdb-react-ui-kit";
-import axios from "axios";
 import { useDispatch } from "react-redux";
 import { logIn } from "../auth/authSlice";
 

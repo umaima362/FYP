@@ -4,9 +4,10 @@ import '.././css/bootstrap-icons.css'
 import '.././css/templatemo-kind-heart-charity.css'
 import logo from ".././images/logo.png"
 import { Link , useNavigate} from 'react-router-dom' ;
-
+import {useSelector} from "react-redux";
 function Navbar() {
     const navigate= useNavigate()
+    const selector = useSelector();
     const  Logout = (e) =>
     {
        localStorage.removeItem('token')
