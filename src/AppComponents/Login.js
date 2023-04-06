@@ -24,7 +24,7 @@ function Login() {
       } else if (Role == "Donar") {
         navigate("/Multiform");
       } else {
-        navigate("/Multiform");
+        navigate("/Userprofile");
       }
     });
   }

@@ -17,13 +17,13 @@ function Signup1() {
     const [confirmPassword,setConfirmPassword] = React.useState("");
 
     const signUp = ()=>{
+        debugger;
         const data = {
             email:email,
             password:password,
             fullName:name
         };
         const url = 'https://localhost:7195/api/Accounts/RegisterDonee';
-        debugger;
         axios.post(url,data).then(result=>{
             alert(result.data);
           }).catch(error=>{
