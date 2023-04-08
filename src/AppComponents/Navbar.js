@@ -4,13 +4,18 @@ import '.././css/bootstrap-icons.css'
 import '.././css/templatemo-kind-heart-charity.css'
 import logo from ".././images/logo.png"
 import { Link , useNavigate} from 'react-router-dom' ;
+import { useDispatch, useSelector } from 'react-redux'
+import { clearUser } from '../auth/authSlice'
 
 function Navbar() {
-    const navigate= useNavigate()
+    const navigate= useNavigate();
+    const user =  useSelector((state)=> state.auth.user);
+    const dispatch = useDispatch();
     const  Logout = (e) =>
     {
-       localStorage.removeItem('token')
-       navigate("/login")
+       localStorage.removeItem('token');
+       dispatch(clearUser());
+       navigate("/login");
     }
   return (
     <div>
@@ -54,7 +59,7 @@ function Navbar() {
                   SignUp
                 </Link>
               </li>
-              <li  style={ { margin :'0px'}}>
+              <li style={{ margin: "0px" }}>
                 <button
                   class="navbar-toggler"
                   type="button"
@@ -66,49 +71,52 @@ function Navbar() {
                 >
                   <span className="navbar-toggler-icon"></span>
                 </button>
-                <div className="collapse navbar-collapse" id="navbar-list-4">
-                  <ul className="navbar-nav">
-                    <li className="nav-item dropdown">
-                      <a
-                        className="nav-link dropdown-toggle"
-                        href="#"
-                        id="navbarDropdownMenuLink"
-                        role="button"
-                        data-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                      >
-                        <img
-                          src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/fox.jpg"
-                          width="40"
-                          height="40"
-                          class="rounded-circle"
-                        />
-                      </a>
-                      <div
-                        className="dropdown-menu"
-                        aria-labelledby="navbarDropdownMenuLink"
-                      >
-                        <a className="dropdown-item" href="#">
-                          Dashboard
+                
+                { user &&
+                  <div className="collapse navbar-collapse" id="navbar-list-4">
+                    <ul className="navbar-nav">
+                      <li className="nav-item dropdown">
+                        <a
+                          className="nav-link dropdown-toggle"
+                          href="#"
+                          id="navbarDropdownMenuLink"
+                          role="button"
+                          data-toggle="dropdown"
+                          aria-haspopup="true"
+                          aria-expanded="false"
+                        >
+                          <img
+                            src={user.imageUrl}
+                            width="40"
+                            height="40"
+                            class="rounded-circle"
+                          />
                         </a>
-                        <a className="dropdown-item" href="#">
-                          Edit Profile
-                        </a>
-                        <button onClick={Logout} className="dropdown-item" >
-                          Log Out
-                        </button>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
+                        <div
+                          className="dropdown-menu"
+                          aria-labelledby="navbarDropdownMenuLink"
+                        >
+                          <a className="dropdown-item" href="#">
+                            Dashboard
+                          </a>
+                          <a className="dropdown-item" href="#">
+                            Edit Profile
+                          </a>
+                          <button onClick={Logout} className="dropdown-item">
+                            Log Out
+                          </button>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                }
               </li>
             </ul>
           </div>
         </div>
       </nav>
     </div>
-  )
+  );
 }
 
 export default Navbar

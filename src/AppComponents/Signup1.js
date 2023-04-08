@@ -7,28 +7,35 @@ import Googlelogin from './Googlelogin';
 import Navbar from './Navbar.js';
 import axios from 'axios';
 import { Navigate } from 'react-router-dom';
-
+import { useDispatch } from "react-redux";
+import { signUpDoner, signUpDonee } from "../auth/authSlice";
 
 function Signup1() {
     const [signIn, toggle] = React.useState(true);
     const [email,setEmail] = React.useState("");
     const [name,setName] = React.useState("");
     const [password,setPassword] = React.useState("");
+    const [registrationNo, setRegistrationNo] = React.useState("");
     const [confirmPassword,setConfirmPassword] = React.useState("");
-
-    const signUp = ()=>{
+    const dispatch = useDispatch();
+    
+    const registerDoner = ()=>{
         debugger;
-        const data = {
-            email:email,
-            password:password,
-            fullName:name
-        };
-        const url = 'https://localhost:7195/api/Accounts/RegisterDonee';
-        axios.post(url,data).then(result=>{
-            alert(result.data);
-          }).catch(error=>{
-            console.log(error);
-          });
+       dispatch(signUpDoner({
+        fullName: name,
+        email: email,
+        password: password
+       }));
+    }
+
+    const registerDonee = ()=>{
+        debugger;
+       dispatch(signUpDonee({
+        registrationId: registrationNo,
+        fullName: name,
+        email: email,
+        password: password
+       }));
     }
     return(
         <>
@@ -45,21 +52,20 @@ function Signup1() {
                     <Components.Input type='email' placeholder='Email' onChange={(e)=>{setEmail(e.target.value)}}/>
                     <Components.Input type='password' placeholder='Password' onChange={(e)=>{setPassword(e.target.value)}}/>
                     <Components.Input type='password' placeholder='Confirm Password' onChange={(e)=>{setConfirmPassword(e.target.value)}}/>
-                    <Components.Button style={{background: 'linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)' , color:'white',}} onClick={signUp} >Sign Up</Components.Button>
+                    <Components.Button type='button' style={{background: 'linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)' , color:'white',}} onClick={registerDoner} >Sign Up</Components.Button>
                     <div className='mt-3'> <Googlelogin ></Googlelogin> </div>
-                    
                 </Components.Form>
             </Components.SignUpContainer>
 
             <Components.SignInContainer signinIn={signIn}>
                  <Components.Form>
                      <Components.Title style={{color:'black',}} >SignUp as Recipient</Components.Title>
-                     <Components.Input type='text' placeholder='Registration Number' />
-                     <Components.Input type='email' placeholder='Email' />
-                     <Components.Input type='password' placeholder='Password' />
-                     <Components.Input type='password' placeholder='Confirm Password'  />
-                     <Components.Button style={{background: 'linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)',}} >Sign Up</Components.Button>
-                     <div className='mt-3'> <Googlelogin ></Googlelogin> </div>
+                     <Components.Input type='text' placeholder='Registration Number' onChange={(e)=>{setRegistrationNo(e.target.value)}} />
+                     <Components.Input type='text' placeholder='Name' onChange={(e)=>{setName(e.target.value)}} />
+                     <Components.Input type='email' placeholder='Email' onChange={(e)=>{setEmail(e.target.value)}} />
+                     <Components.Input type='password' placeholder='Password' onChange={(e)=>{setPassword(e.target.value)}} />
+                     <Components.Input type='password' placeholder='Confirm Password' onChange={(e)=>{setConfirmPassword(e.target.value)}} />
+                     <Components.Button type='button' style={{background: 'linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)',}} onClick={registerDonee} >Sign Up</Components.Button>
                  </Components.Form>
             </Components.SignInContainer>
         
@@ -76,7 +82,6 @@ function Signup1() {
                         Sign Up
                     </Components.GhostButton>
                     </Components.LeftOverlayPanel>
-
                     <Components.RightOverlayPanel  style={{background: 'linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593)',}} signinIn={signIn}>
                       <Components.Title style={{color:'white',}}>Join us as a Donor</Components.Title>
                       <Components.Paragraph style={{color:'white',}}>
@@ -86,7 +91,6 @@ function Signup1() {
                               Sign Up 
                           </Components.GhostButton> 
                     </Components.RightOverlayPanel>
-
                 </Components.Overlay>
             </Components.OverlayContainer>
 
@@ -95,7 +99,6 @@ function Signup1() {
         </div>
         </>
     )
-        
 }
 
 export default Signup1
