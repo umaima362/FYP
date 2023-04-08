@@ -7,9 +7,10 @@ import { useState } from "react";
 import MyImage from ".././images/defaultimg.png";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 
 function Userprofile() {
-  const [imageSrc, setImageSrc] = useState(MyImage);
+  const [imageSrc, setImageSrc] = useState(null);
   const [image, setImage] = useState(null);
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
@@ -18,6 +19,16 @@ function Userprofile() {
   const user = useSelector((state) => state.auth.user);
   // Create a reference to the hidden file input element
   const hiddenFileInput = React.useRef(null);
+  useEffect(()=>{
+    if(user){
+      setImageSrc(user.imageUrl);
+      setFullName(user.fullName);
+      setPhone(user.phoneNumber);
+      setAddress(user.address);
+      setBio(user.about);
+    }
+
+  },[]);
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
@@ -70,7 +81,7 @@ function Userprofile() {
                       <div className="row">
                         <div className="col-12 col-sm-auto mb-3">
                           <div className="mx-auto" style={{ width: "140px" }}>
-                            <img src={user? user.imageUrl:imageSrc} width="140px" height="140px" />
+                            <img src={imageSrc} width="140px" height="140px" />
                             <h1> </h1>
                             <button
                               className="btn btn-outline-danger"
@@ -91,9 +102,9 @@ function Userprofile() {
                         <div className="col d-flex flex-column flex-sm-row justify-content-between mb-3">
                           <div className="text-center text-sm-left mb-2 mb-sm-0">
                             <h4 className="pt-sm-2 pb-1 mb-0 text-nowrap">
-                              {user? user.fullName:""}
+                              {fullName}
                             </h4>
-                            <p className="mb-0">@{user?user.fullName:""}</p>
+                            <p className="mb-0">@{fullName}</p>
                             <div className="mt-2 "></div>
                           </div>
                           <div className="text-center text-sm-right">
@@ -134,7 +145,7 @@ function Userprofile() {
                                           setFullName(e.target.value)
                                         }
                                         placeholder="Enter Your Name"
-                                        value={user?user.fullName:""}
+                                        value={fullName}
                                       />
                                     </div>
                                   </div>
@@ -148,7 +159,7 @@ function Userprofile() {
                                           setPhone(e.target.value)
                                         }
                                         placeholder="Enter Your Name"
-                                        value={user?user.phoneNumber:""}
+                                        value={phone}
                                       />
                                     </div>
                                   </div>
@@ -163,7 +174,7 @@ function Userprofile() {
                                         onChange={(e) =>
                                           setAddress(e.target.value)
                                         }
-                                        value={user?user.address:""}
+                                        value={address}
                                         placeholder="Address"
                                       />
                                     </div>
@@ -177,7 +188,7 @@ function Userprofile() {
                                         className="form-control"
                                         rows="5"
                                         onChange={(e) => setBio(e.target.value)}
-                                        value={user?user.about:""}
+                                        value={bio}
                                         placeholder="My Bio"
                                       ></textarea>
                                     </div>
